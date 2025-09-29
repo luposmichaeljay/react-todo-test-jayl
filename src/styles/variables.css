@@ -13,6 +13,10 @@
   --cta-hover-primary: #7c3aed;
   --cta-hover-secondary: #2563eb;
 
+  /* Danger Colors */
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+
   /* Text Colors */
   --text-primary: #1f2937;
   --text-secondary: #6b7280;

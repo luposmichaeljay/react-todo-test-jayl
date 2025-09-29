@@ -36,6 +36,14 @@ export function TodoList() {
     );
   };
 
+  const handleRemoveTask = (id: number) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
+
+  const handleRemoveCompleted = () => {
+    setTasks((prev) => prev.filter((task) => !task.completed));
+  };
+
   const filteredTasks = useMemo(() => {
     let filtered = tasks;
 
@@ -45,6 +53,11 @@ export function TodoList() {
         break;
       case "active":
         filtered = filtered.filter((task) => !task.completed);
+        break;
+      case "multiword":
+        filtered = filtered.filter(
+          (task) => task.text.trim().split(/\s+/).length >= 2
+        );
         break;
       default:
         break;
@@ -68,19 +81,30 @@ export function TodoList() {
         handleAddTask={handleAddTask}
       />
 
-      <TodoFilters filter={filter} setFilter={setFilter} tasks={tasks} />
+      <TodoFilters
+        filter={filter}
+        setFilter={setFilter}
+        tasks={tasks}
+        handleRemoveCompleted={handleRemoveCompleted}
+      />
 
       {filteredTasks.length === 0 ? (
         <div className="todo-list__empty">
           {filter === "all"
             ? "No tasks yet. Add one above!"
+            : filter === "multiword"
+            ? "No tasks with multiple words found."
             : `No ${filter} tasks found.`}
         </div>
       ) : (
         <ul className="todo-list__items">
           {filteredTasks.map((task) => (
             <li key={task.id} className="todo-list__item">
-              <Todo task={task} handleToggleComplete={handleToggleComplete} />
+              <Todo
+                task={task}
+                handleToggleComplete={handleToggleComplete}
+                handleRemoveTask={handleRemoveTask}
+              />
             </li>
           ))}
         </ul>

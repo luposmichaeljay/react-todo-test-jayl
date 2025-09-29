@@ -3,9 +3,11 @@ import { Task } from "../../types/Task";
 export function Todo({
   task,
   handleToggleComplete,
+  handleRemoveTask,
 }: {
   task: Task;
   handleToggleComplete: (id: number) => void;
+  handleRemoveTask: (id: number) => void;
 }) {
   return (
     <>
@@ -25,6 +27,18 @@ export function Todo({
       >
         {task.text}
       </span>
+      <a
+        href="#"
+        className="todo-list__remove"
+        onClick={(e) => {
+          e.preventDefault();
+          handleRemoveTask(task.id);
+        }}
+        aria-label={`Remove "${task.text}" from list`}
+        title="Remove task"
+      >
+        [×]
+      </a>
     </>
   );
 }

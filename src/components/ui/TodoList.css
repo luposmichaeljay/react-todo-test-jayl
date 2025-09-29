@@ -105,6 +105,29 @@
   color: var(--text-secondary);
 }
 
+.todo-list__remove {
+  color: var(--danger-color, #dc3545);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.todo-list__remove:hover {
+  background-color: var(--danger-color, #dc3545);
+  color: white;
+  text-decoration: none;
+}
+
+.todo-list__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 /* Empty state */
 .todo-list__empty {
   text-align: center;
