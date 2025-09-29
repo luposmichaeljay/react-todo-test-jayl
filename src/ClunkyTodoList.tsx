@@ -1,49 +1,55 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { tasksList } from "./constants/tasks";
+import { Task } from "./types/Task";
 
 export function ClunkyTodoList() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Write code", completed: true },
-    { id: 3, text: "Eat lunch", completed: false },
-  ]);
+  //
+  const [tasks, setTasks] = useState<Task[]>(tasksList);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTask(event.target.value);
   };
 
   const handleAddTask = () => {
     if (newTask.trim() !== "") {
-      const tempTasks = [...tasks];
-      tempTasks.push({ id: Date.now(), text: newTask, completed: false });
-      setTasks(tempTasks);
+      setTasks((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          text: newTask.trim(),
+          completed: false,
+        },
+      ]);
       setNewTask("");
     }
   };
 
-  const handleToggleComplete = (id) => {
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
-        let tempTask = { id: task.id, text: task.text, completed: task.completed };
-        tempTask.completed = !tempTask.completed;
-        return tempTask;
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
+  const handleToggleComplete = (id: number) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
-  const [tasksToRender, setTasksToRender] = useState<any[]>([])
-  useEffect(() => {
-    let filteredTasks = tasks;
-    if (filter === "completed") {
-      filteredTasks = tasks.filter((task) => task.completed);
-    } else if (filter === "active") {
-      filteredTasks = tasks.filter((task) => !task.completed);
+  const filteredTasks = useMemo(() => {
+    let filtered = tasks;
+
+    switch (filter) {
+      case "completed":
+        filtered = filtered.filter((task) => task.completed);
+        break;
+      case "active":
+        filtered = filtered.filter((task) => !task.completed);
+        break;
+      default:
+        break;
     }
-    setTasksToRender(filteredTasks);
-  }, [tasks]);
+
+    return filtered;
+  }, [tasks, filter]);
 
   const totalCount = useMemo(() => {
     return tasks.length;
@@ -66,7 +72,7 @@ export function ClunkyTodoList() {
         <button onClick={() => setFilter("completed")}>Completed</button>
       </div>
       <ul>
-        {tasksToRender.map((task, index) => (
+        {filteredTasks.map((task, index) => (
           <li key={index}>
             <input
               type="checkbox"
