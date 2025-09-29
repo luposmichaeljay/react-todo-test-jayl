@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { tasksList } from "./constants/tasks";
-import { Task } from "./types/Task";
+import { tasksList } from "../../constants/tasks";
+import { Task } from "../../types/Task";
+import { Todo } from "./Todo";
+import { TodoFilters } from "./TodoFilters";
+import { TodoForm } from "./TodoForm";
 
-export function ClunkyTodoList() {
-  //
+export function TodoList() {
   const [tasks, setTasks] = useState<Task[]>(tasksList);
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
@@ -53,42 +55,36 @@ export function ClunkyTodoList() {
 
   const totalCount = useMemo(() => {
     return tasks.length;
-  }, []);
+  }, [tasks]);
 
   return (
-    <div>
-      <h1>To-Do List</h1>
-      <h2>Items: {totalCount}</h2>
-      <input
-        type="text"
-        value={newTask}
-        onChange={handleInputChange}
-        placeholder="Add new task"
+    <div className="todo-list">
+      <h1 className="todo-list__title">To-Do List</h1>
+      <h2 className="todo-list__counter">Items: {totalCount}</h2>
+
+      <TodoForm
+        newTask={newTask}
+        handleInputChange={handleInputChange}
+        handleAddTask={handleAddTask}
       />
-      <button onClick={handleAddTask}>Add</button>
-      <div>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("active")}>Active</button>
-        <button onClick={() => setFilter("completed")}>Completed</button>
-      </div>
-      <ul>
-        {filteredTasks.map((task, index) => (
-          <li key={index}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => handleToggleComplete(task.id)}
-            />
-            <span
-              style={{
-                textDecoration: task.completed ? "line-through" : "none",
-              }}
-            >
-              {task.text}
-            </span>
-          </li>
-        ))}
-      </ul>
+
+      <TodoFilters filter={filter} setFilter={setFilter} tasks={tasks} />
+
+      {filteredTasks.length === 0 ? (
+        <div className="todo-list__empty">
+          {filter === "all"
+            ? "No tasks yet. Add one above!"
+            : `No ${filter} tasks found.`}
+        </div>
+      ) : (
+        <ul className="todo-list__items">
+          {filteredTasks.map((task) => (
+            <li key={task.id} className="todo-list__item">
+              <Todo task={task} handleToggleComplete={handleToggleComplete} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

@@ -1,0 +1,64 @@
+/* CSS Variables - Design System */
+
+:root {
+  /* Colors */
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-text: #ffffff;
+  --primary-color-alpha: rgba(59, 130, 246, 0.2);
+
+  /* CTA Colors */
+  --cta-primary: #8b5cf6;
+  --cta-secondary: #3b82f6;
+  --cta-hover-primary: #7c3aed;
+  --cta-hover-secondary: #2563eb;
+
+  /* Text Colors */
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-hover: #f3f4f6;
+  --bg-active: #e5e7eb;
+
+  /* Border Colors */
+  --border-color: #d1d5db;
+  --border-hover: #9ca3af;
+
+  /* Focus */
+  --focus-ring: rgba(59, 130, 246, 0.5);
+
+  /* Layout */
+  --container-max-width: 800px;
+  --container-padding: 2rem;
+  --border-radius: 8px;
+  --border-radius-large: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Text Colors */
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+
+    /* Background Colors */
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-hover: #374151;
+    --bg-active: #4b5563;
+
+    /* Border Colors */
+    --border-color: #374151;
+    --border-hover: #4b5563;
+  }
+}
